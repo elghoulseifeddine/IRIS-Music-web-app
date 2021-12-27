@@ -27,6 +27,16 @@ const artistSchema = new mongoose.Schema({
       enum:["admin","client","artist"],
       default:"client"
   },
+  style:{
+      type: String,
+      enum:["Band","Troupe","Soliste"]
+  },
+  rating:{
+      type: Number,
+      min: 1,
+      max: 5,
+      required: true,
+  },
   posts:[{
       type: mongoose.Schema.Types.ObjectId,
       ref:"post"
@@ -38,3 +48,7 @@ const artistSchema = new mongoose.Schema({
 });
 
 module.exports = Artist = mongoose.model("Artist", artistSchema);
+
+
+
+
