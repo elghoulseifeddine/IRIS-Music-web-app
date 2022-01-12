@@ -20,7 +20,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 // nodejs library that concatenates strings
 import classnames from "classnames";
-import LOGO from "../../myImages/Irismusic-Black.png"
+import LOGOBLACK from "../../myImages/Irismusic-Black.png"
+import LOGOWHITE from "../../myImages/Irismusic-white.png"
 // reactstrap components
 import {
   Collapse,
@@ -36,6 +37,7 @@ import {
 function ExamplesNavbar() {
   const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
   const [navbarCollapse, setNavbarCollapse] = React.useState(false);
+  const [logo,setLogo]= React.useState(LOGOWHITE)
 
   const toggleNavbarCollapse = () => {
     setNavbarCollapse(!navbarCollapse);
@@ -49,11 +51,14 @@ function ExamplesNavbar() {
         document.body.scrollTop > 299
       ) {
         setNavbarColor("");
+        setLogo(LOGOBLACK);
       } else if (
         document.documentElement.scrollTop < 300 ||
         document.body.scrollTop < 300
+        
       ) {
         setNavbarColor("navbar-transparent");
+        setLogo(LOGOWHITE)
       }
     };
 
@@ -76,7 +81,7 @@ function ExamplesNavbar() {
             data-placement="bottom"
             tag={Link}
           >
-            <img src={LOGO}  width={80}/>
+            <img src={logo}  width={80} alt=""/>
           </NavbarBrand>
           <button
             aria-expanded={navbarCollapse}
@@ -101,11 +106,7 @@ function ExamplesNavbar() {
                 <i className="nc-icon nc-layout-11" /> Trouver un artiste
               </NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink to="/profile-page" tag={Link}>
-                <i className="nc-icon nc-layout-11" /> Profile
-              </NavLink>
-            </NavItem>
+        
             <NavItem>
               <NavLink
               >
@@ -113,52 +114,11 @@ function ExamplesNavbar() {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink
-                data-placement="bottom"
-               
-              >
-                <i className="fa fa-twitter" />
-                <p className="d-lg-none">Twitter</p>
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                data-placement="bottom"
-               
-                title="Like us on Facebook"
-              >
-                <i className="fa fa-facebook-square" />
-                <p className="d-lg-none">Facebook</p>
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                data-placement="bottom"
-              
-                title="Follow us on Instagram"
-              >
-                <i className="fa fa-instagram" />
-                <p className="d-lg-none">Instagram</p>
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                data-placement="bottom"
-              
-                title="Star on GitHub"
-              >
-                <i className="fa fa-github" />
-                <p className="d-lg-none">GitHub</p>
-              </NavLink>
-            </NavItem>
-
-
-            <NavItem>
             
             <Button
               className="btn-round"
               color="danger"
-              to='/register-page'
+              to='/login-page'
               tag={Link}
             >
               <i className="nc-icon nc-spaceship"></i> Se Connecter

@@ -16,14 +16,17 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useState } from "react";
 
 // reactstrap components
 import { Button, Card, Form, Input, Container, Row, Col } from "reactstrap";
 
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
-
+import { Link, useNavigate} from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "JS/Actions/userActions";
+import { NavLink } from "reactstrap";
 function LoginPage() {
   document.documentElement.classList.remove("nav-open");
   React.useEffect(() => {
@@ -32,6 +35,22 @@ function LoginPage() {
       document.body.classList.remove("register-page");
     };
   });
+  const navigate=useNavigate();
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (email === "" || password === "") {
+      alert("Missing some inputs");
+    }
+    dispatch(login({ email, password }));
+    navigate('/home-page');
+    setEmail("");
+    setPassword("");
+  };
+
   return (
     <>
       <ExamplesNavbar />
@@ -48,16 +67,30 @@ function LoginPage() {
             <Col className="ml-auto mr-auto" lg="4">
               <Card className="card-register ml-auto mr-auto">
                 <h3 className="title mx-auto">Welcome</h3>
-                <div className="social-line text-center">
-                </div>
+                <div className="social-line text-center"></div>
                 <Form className="register-form">
                   <label>Email</label>
-                  <Input placeholder="Email" type="text" />
+                  <Input
+                    placeholder="Email"
+                    type="text"
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                   <label>Mot de passe</label>
-                  <Input placeholder="Mot de passe" type="password" />
-                  <Button block className="btn-round" color="danger">
-                    LOG IN
-                  </Button>
+                  <Input
+                    placeholder="Mot de passe"
+                    type="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  
+                    <Button
+                      block
+                      className="btn-round"
+                      color="danger"
+                      onClick={(e) => handleLogin(e)}
+                    >
+                      LOG IN
+                    </Button>
+                  
                 </Form>
                 <div className="forgot">
                   <Button
@@ -66,9 +99,17 @@ function LoginPage() {
                     href="#pablo"
                     onClick={(e) => e.preventDefault()}
                   >
-                   Mot de passe oublié?
+                    Mot de passe oublié?
                   </Button>
                 </div>
+                <Button
+                  className="btn-link mr-1"
+                  color="danger"
+                  to="/register-page"
+                  tag={Link}
+                >
+                  Sign up
+                </Button>
               </Card>
             </Col>
           </Row>

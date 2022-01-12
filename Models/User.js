@@ -33,17 +33,38 @@ const userSchema = new mongoose.Schema({
   },
   style:{
       type: String,
-      enum:["Band","Troupe","Soliste"]
+      enum:["Band","Troupe","Soliste","DJ","Rapper"],
+      default:"Soliste"
   },
   
   posts:[{
       type: mongoose.Schema.Types.ObjectId,
       ref:"Post"
   }],
-  profile:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref:"Profile"
-},
+
+
+  description:{
+    type: String,
+   },
+    image:{
+        type: String,
+    },
+  genre:{
+      type: String,
+        enum:["Jazz","Rock","Orientale","Occidentale","World music","Rap","Ray","HipHop","Electro","House","Autre"],
+  },
+  instrument:{
+      type: String,
+        enum:["Violon","Aoud","Clavier","Drums","Percussions","Flute","Guitar","Guitar Bass","Saxo","Kanoun","Autre"],
+  
+      },
+  rating:{
+    type: Number,
+    min: 1,
+    max: 5,
+    default:1
+  },
+
   dateOfCreation:{
       type: Date,
       default: Date.now()

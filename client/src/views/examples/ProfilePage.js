@@ -16,7 +16,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React,{useEffect,useState} from "react";
 
 // reactstrap components
 import {
@@ -35,13 +35,20 @@ import {
 } from "reactstrap";
 
 // core components
-import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import ProfilePageHeader from "components/Headers/ProfilePageHeader.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
+import ArtistNavbar from "components/Navbars/ArtistNavbar";
+import {useSelector,useDispatch} from "react-redux"
+import { Link } from "react-router-dom";
+import { getUserById } from "JS/Actions/userActions";
+import PostList from "MyPages/PostList";
+
 
 function ProfilePage() {
-  const [activeTab, setActiveTab] = React.useState("1");
-
+  const currentUser = useSelector((state) => state.userReducer.currentUser);
+  const isAuth = useSelector((state) => state.userReducer.isAuth);
+  const dispatch=useDispatch();
+  const [activeTab, setActiveTab] = React.useState("2");
   const toggle = (tab) => {
     if (activeTab !== tab) {
       setActiveTab(tab);
@@ -55,9 +62,18 @@ function ProfilePage() {
       document.body.classList.remove("landing-page");
     };
   });
+  const [loading,setLoading]= useState(true)
+  useEffect(async() => {
+    await dispatch(getUserById(currentUser._id));
+    setLoading(false)
+  }, [loading,dispatch,isAuth,currentUser]);
+
+  
   return (
-    <>
-      <ExamplesNavbar />
+    <div>
+    {!loading && 
+    <div>
+      <ArtistNavbar/>
       <ProfilePageHeader />
       <div className="section profile-content">
         <Container>
@@ -66,31 +82,62 @@ function ProfilePage() {
               <img
                 alt="..."
                 className="img-circle img-no-padding img-responsive"
-                src={require("assets/img/faces/joe-gardner-2.jpg").default}
+                src={(currentUser.image)||(require("assets/img/faces/R.jpg").default)}
               />
             </div>
             <div className="name">
               <h4 className="title">
-                Jane Faker <br />
+                {`${currentUser.lastName} ${currentUser.firstName}`} <br />
               </h4>
-              <h6 className="description">Music Producer</h6>
+              <h6 className="title">{`${currentUser.tel}`}</h6>
+              <h6 className="description">{`${currentUser.style}`}</h6>
+              <h6 className="description">{`${currentUser.instrument}`}</h6>
+              <h6 className="description">{`${currentUser.genre}`}</h6>
+              
             </div>
           </div>
           <Row>
             <Col className="ml-auto mr-auto text-center" md="6">
               <p>
-                An artist of considerable range, Jane Faker — the name taken by
-                Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs
-                and records all of his own music, giving it a warm, intimate
-                feel with a solid groove structure.
+              {`${currentUser.description}`}
               </p>
               <br />
-              <Button className="btn-round" color="default" outline>
-                <i className="fa fa-cog" /> Settings
+              <NavLink to='/add-profile' tag={Link}>
+              <Button className="btn-round" color="default" outline  >
+                <i className="fa fa-cog" /> Set your Profile
               </Button>
+              </NavLink>
             </Col>
           </Row>
           <br />
+          <div className="nav-tabs-navigation">
+          <div className="nav-tabs-wrapper">
+            <Nav role="tablist" tabs>
+
+              <NavItem>
+                <NavLink
+                  className={activeTab === "2" ? "active" : ""}
+                  onClick={() => {
+                    toggle("2");
+                  }}
+                >
+                  Following
+                </NavLink>
+              </NavItem>
+            </Nav>
+          </div>
+        </div>
+        {/* Tab panes */}
+        <TabContent className="following" activeTab={activeTab}>     
+          <TabPane className="text-center" tabId="2" id="following">
+          <h3 className="text-muted">My Posts</h3>
+            <Button className="btn-round" color="warning" to='/add-post' tag={Link}>
+              Add Post
+            </Button>
+            <PostList />
+          </TabPane>
+        </TabContent>
+
           <div className="nav-tabs-navigation">
             <div className="nav-tabs-wrapper">
               <Nav role="tablist" tabs>
@@ -198,7 +245,9 @@ function ProfilePage() {
         </Container>
       </div>
       <DemoFooter />
-    </>
+    </div>}
+    {loading&&<h1>Loading</h1>}
+    </div>
   );
 }
 

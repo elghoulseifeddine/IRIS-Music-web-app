@@ -62,9 +62,8 @@ exports.addUser = async (req, res) => {
   // ************************* get user by ID ********************************
 
   exports.getUserById = async (req, res) => {
-
-    const { id } = req.params;
-    const user = await User.findById(id).populate("posts").populate("profile")
+    const user = await User.findById(req.params.id).populate("posts")
+    // .populate("profile")
   
     try {
       await 
@@ -83,12 +82,18 @@ exports.addUser = async (req, res) => {
   exports.UserUpdate = async (req, res) => {
     const { id } = req.params;
     // let User = await User.findById(id);
+    let userUpdate= null
     try {
-      await User.findByIdAndUpdate(id,req.body)
-      res.status(201).json({ msg: "Updated User success" });
+      await User.findById(id)
+      if(req.file){
+         userUpdate = await User.findByIdAndUpdate(id,{$set : {...req.body,image : req.file.path}})
+    }else{
+         userUpdate = await User.findByIdAndUpdate(id,{$set : {...req.body}})
+    };
+      res.status(201).json({ msg: "Updated User success",userUpdate});
     } catch (error) {
       console.log("3 : ", error);
-      res.status(401).json({ msg: "Updated User Failed" });
+      res.status(401).json({ msg: "Updated User Failed", error });
     }
   };
 
@@ -112,7 +117,7 @@ exports.addUser = async (req, res) => {
 
   exports.UserGet = async (req, res) => {
 
-    const allUsers = await User.find()
+    const allUsers = await User.find().populate("posts");
   
     try {
       await 

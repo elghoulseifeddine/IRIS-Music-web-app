@@ -26,10 +26,11 @@ exports.addPost = async (req, res) => {
 
 
 exports.postUpdate = async (req, res) => {
-    const { id } = req.params;
+  
     try {
-      await Post.findByIdAndUpdate(id,req.body)
-      res.status(201).json({ msg: "Updated post success" });
+      const updatePost=await Post.findByIdAndUpdate({ _id: req.params.id },
+        { $set: { ...req.body }})
+      res.status(201).json({ msg: "Updated post success", updatePost });
     } catch (error) {
       console.log("3 : ", error);
       res.status(401).json({ msg: "Updated post Failed" });
@@ -59,11 +60,11 @@ exports.postUpdate = async (req, res) => {
    exports.postByIdGet = async (req, res) => {
 
     const { id } = req.params;
-    const Post = await Post.findById(id).populate("userId")
+    const post = await Post.findById(id).populate("userId")
   
     try {
       await 
-      res.status(201).json({ msg: "Get post success" , Post});
+      res.status(201).json({ msg: "Get post success" , post});
     } catch (error) {
       console.log(error);
       res.status(401).json({ msg: "Get post Failed" });
@@ -75,14 +76,18 @@ exports.postUpdate = async (req, res) => {
 
 
       exports.postDelete = async (req, res) => {
-        const { id } = req.params;
-        try {
-          await Post.findByIdAndRemove(id)
-          const user  = await User.findOne({_id : req.user._id})
-     user.posts.filter(el=>el._id!==id)
-          res.status(201).json({ msg: "Deleted post success"  });
+        const post = await Post.findOne({ _id: req.params.id });
+        const userId= post.userId
+        const user = await User.findOne({ userId });
+        try {   
+           await user.posts.filter(post=>post!==req.params.id);
+            const postDeleted = await Post.findOneAndDelete({
+              _id: req.params.id,
+            });
+            await user.posts.filter(post=>post!==req.params.id);
+          
+          res.status(201).json({ msg: "post deleted success", postDeleted });
         } catch (error) {
-          console.log(error)
-          res.status(401).json({ msg: "Deleted post Failed" , error});
+          res.status(401).json({msg:"post deleted failed" , error});
         }
       };

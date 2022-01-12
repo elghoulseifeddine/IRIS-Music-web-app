@@ -16,45 +16,57 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useEffect } from "react";
 
-import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+// import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 // styles
 import "bootstrap/scss/bootstrap.scss";
 import "assets/scss/paper-kit.scss?v=1.3.0";
 import "assets/demo/demo.css?v=1.3.0";
+
 // pages
-import Index from "views/Index.js";
-import NucleoIcons from "views/NucleoIcons.js";
 import LandingPage from "views/examples/LandingPage.js";
 import ProfilePage from "views/examples/ProfilePage.js";
 import RegisterPage from "views/examples/RegisterPage.js";
-import "./app.css";
+import LoginPage from "views/examples/LoginPage";
+import HomePage from "MyPages/HomePage";
+import { getAuthUser } from "JS/Actions/userActions";
+import ArtistPage from "MyPages/ArtistPage";
+import AddProfile from "views/examples/AddProfile";
+import AddPost from "views/examples/AddPost";
+import UpdatePost from "views/examples/UpdatePost";
+import ProfileDetailsPage from "views/examples/ProfileDetailsPage";
+
 // others
 
-const App =()=>{ 
-  return ( 
-  <BrowserRouter>
-    
-    
-      <Route
-        exact path="/"
-        render={(props) => <LandingPage {...props} />}
-      />
-      <Route
-      exact
-        path="/profile-page"
-        render={(props) => <ProfilePage {...props} />}
-      />
-      <Route
-      exact
-        path="/register-page"
-        render={(props) => <RegisterPage {...props} />}
-      />
-  
-  </BrowserRouter>
+const App = () => {
+  const dispatch = useDispatch();
+  const isAuth = useSelector((state) => state.userReducer.isAuth);
+  // const params=useParams();
+  useEffect(() => {
+    dispatch(getAuthUser());
+  }, [isAuth,dispatch]);
 
-);
-}
+  return (
+    <Router>
+      
+    <Routes>
+        <Route exact path="/" element={<LandingPage />} />
+        <Route exact path="/profile-page" element={<ProfilePage />} />
+        <Route exact path="/register-page" element={<RegisterPage />} />
+        <Route exact path="/login-page" element={<LoginPage />} />
+        <Route exact path="/home-page" element={<HomePage />} />
+        <Route exact path="/artists" element={<ArtistPage />} />
+        <Route exact path="/add-profile" element={<AddProfile />} />
+        <Route exact path="/add-post" element={<AddPost />} />
+        <Route exact path="/update-post/:id" element={<UpdatePost />} />
+        <Route exact path="/details/:id" element={<ProfileDetailsPage />} />
+      </Routes>
+    </Router>
+  );
+};
 export default App;

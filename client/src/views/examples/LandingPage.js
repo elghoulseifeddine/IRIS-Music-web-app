@@ -39,6 +39,8 @@ import {
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import LandingPageHeader from "components/Headers/LandingPageHeader.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
 function LandingPage() {
   document.documentElement.classList.remove("nav-open");
@@ -48,7 +50,11 @@ function LandingPage() {
       document.body.classList.remove("profile-page");
     };
   });
-  return (
+
+  const isAuth = useSelector((state) => state.userReducer.isAuth);
+  return isAuth ? (
+    <Navigate to={"/home-page"} />
+  ) : (
     <>
       <ExamplesNavbar />
       <LandingPageHeader />
