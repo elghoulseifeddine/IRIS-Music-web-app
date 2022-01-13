@@ -22,7 +22,6 @@ import ArtistNavbar from "components/Navbars/ArtistNavbar";
 
 const HomePage = () => {
   const currentUser = useSelector((state) => state.userReducer.currentUser);
-  // const isAuth = useSelector((state) => state.userReducer.isAuth);
   const loading = useSelector((state) => state.userReducer.loading);
   document.documentElement.classList.remove("nav-open");
   React.useEffect(() => {

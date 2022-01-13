@@ -33,13 +33,13 @@ import LandingPage from "views/examples/LandingPage.js";
 import ProfilePage from "views/examples/ProfilePage.js";
 import RegisterPage from "views/examples/RegisterPage.js";
 import LoginPage from "views/examples/LoginPage";
-import HomePage from "MyPages/HomePage";
 import { getAuthUser } from "JS/Actions/userActions";
 import ArtistPage from "MyPages/ArtistPage";
 import AddProfile from "views/examples/AddProfile";
 import AddPost from "views/examples/AddPost";
 import UpdatePost from "views/examples/UpdatePost";
 import ProfileDetailsPage from "views/examples/ProfileDetailsPage";
+import HomePage from "MyPages/HomePage";
 
 // others
 
