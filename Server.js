@@ -20,9 +20,7 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
   });
 }
-// app.use("/client", client);
-// app.use("/artist", artist);
-// app.use("/profile", profile);
+
 app.use('/upload',express.static('upload'));
 app.use("/post", post);
 app.use("/user", user);
