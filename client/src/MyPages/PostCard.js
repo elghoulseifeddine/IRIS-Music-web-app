@@ -24,7 +24,7 @@ const PostCard = ({ body, video, id}) => {
       <CardGroup>
         <Card>
           <CardBody>
-            <Youtuber video={video} />
+          
             <CardTitle tag="h5">{body}</CardTitle>
             <CardSubtitle className="mb-2 text-muted" tag="h6">
               Card subtitle

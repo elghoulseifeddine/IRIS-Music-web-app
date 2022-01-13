@@ -107,11 +107,6 @@ function ArtistNavbar() {
         >
           <Nav navbar>
             <NavItem>
-              <NavLink>
-                <i className="nc-icon nc-book-bookmark" /> besoin d'aide ?
-              </NavLink>
-            </NavItem>
-            <NavItem>
               <NavLink to="/profile-page" tag={Link}>
                 <i className="nc-icon nc-book-bookmark" />
                 {`${currentUser.lastName} ${currentUser.firstName}`}

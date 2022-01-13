@@ -108,12 +108,6 @@ function ExamplesNavbar() {
             </NavItem>
         
             <NavItem>
-              <NavLink
-              >
-                <i className="nc-icon nc-book-bookmark" /> besoin d'aide ?
-              </NavLink>
-            </NavItem>
-            <NavItem>
             
             <Button
               className="btn-round"

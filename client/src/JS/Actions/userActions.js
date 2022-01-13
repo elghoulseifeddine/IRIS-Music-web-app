@@ -61,7 +61,7 @@ export const register = (formData) => async (dispatch) => {
 
 /********************** User update action creator ******************** */
 
-export const updateUser = ({ description, instrument, rating, genre,image},id) => async (dispatch) => {
+export const updateUser = ({ description, instrument, rating, genre,image,style},id) => async (dispatch) => {
   dispatch({ type: USER_UPDATE });
 
   try {
@@ -79,6 +79,7 @@ export const updateUser = ({ description, instrument, rating, genre,image},id) =
     formData.append("rating", rating);
     formData.append("genre", genre);
     formData.append("image", image);
+    formData.append("style", style);
    
 
     const res = await axios.put(`/user/update-user/${id}`, formData,config);

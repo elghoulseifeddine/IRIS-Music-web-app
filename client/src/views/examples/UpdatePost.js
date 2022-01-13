@@ -54,10 +54,10 @@ function UpdatePost() {
   const dispatch = useDispatch();
   const [loading,setLoading] = useState(true);
 
-  useEffect(async() => {
-    await dispatch(getPost(id));
+  useEffect(() => {
+     dispatch(getPost(id));
     setLoading(false)
-  }, [loading]);
+  }, [loading,dispatch,id]);
   // const currentPost = useSelector((state) => state.postReducer.currentPost);
   const navigate = useNavigate();
 

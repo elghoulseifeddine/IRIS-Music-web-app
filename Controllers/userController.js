@@ -81,13 +81,15 @@ exports.addUser = async (req, res) => {
 
   exports.UserUpdate = async (req, res) => {
     const { id } = req.params;
-    // let User = await User.findById(id);
-    let userUpdate= null
+    // let user = await User.findById(id);
+    // let userUpdate= null
     try {
-      await User.findById(id)
+      // await User.findById(id)
       if(req.file){
+          const user= await User.findById(id)
          userUpdate = await User.findByIdAndUpdate(id,{$set : {...req.body,image : req.file.path}})
     }else{
+     
          userUpdate = await User.findByIdAndUpdate(id,{$set : {...req.body}})
     };
       res.status(201).json({ msg: "Updated User success",userUpdate});

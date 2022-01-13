@@ -20,13 +20,6 @@ import React, { useEffect, useState } from "react";
 
 // reactstrap components
 import {
-  Button,
-  Label,
-  FormGroup,
-  Input,
-  NavItem,
-  NavLink,
-  Nav,
   TabContent,
   TabPane,
   Container,
@@ -37,12 +30,11 @@ import {
 // core components
 import ProfilePageHeader from "components/Headers/ProfilePageHeader.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
-import ArtistNavbar from "components/Navbars/ArtistNavbar";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getUserById } from "JS/Actions/userActions";
-import PostList from "MyPages/PostList";
 import DetailsPostList from "MyPages/DetailsPostList";
+import ClientNavbar from "components/Navbars/ClientNavbar";
 
 function ProfileDetailsPage() {
   const isAuth = useSelector((state) => state.userReducer.isAuth);
@@ -65,16 +57,21 @@ function ProfileDetailsPage() {
   const { id } = useParams();
   const userById = useSelector((state) => state.userReducer.userById);
   const [loading, setLoading] = useState(true);
-  useEffect(async () => {
+  
+  const gettingUserByID=async()=>{
     await dispatch(getUserById(id));
     setLoading(false);
-  }, [loading, dispatch, isAuth]);
+  }
+
+  useEffect( () => {
+    gettingUserByID();
+  }, [loading, dispatch, isAuth,id]);
 
   return (
     <div>
       {!loading && (
         <div>
-          <ArtistNavbar />
+          <ClientNavbar />
           <ProfilePageHeader />
           <div className="section profile-content">
             <Container>
@@ -83,7 +80,7 @@ function ProfileDetailsPage() {
                   <img
                     alt="..."
                     className="img-circle img-no-padding img-responsive"
-                    src={require("assets/img/faces/joe-gardner-2.jpg").default}
+                    src={(userById.user.image)||(require("assets/img/faces/R.jpg").default)}
                   />
                 </div>
                 <div className="name">

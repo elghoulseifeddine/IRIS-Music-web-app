@@ -57,18 +57,12 @@ function AddProfile() {
   const id=currentUser._id;
   const [genre, setGenre] = useState("");
   const [image, setImage] = useState("");
+  const [style, setStyle] = useState("");
 
   const handleRegisterProfile = (e) => {
     e.preventDefault();
-    if (description === "" || instrument === "" || genre === "") {
-      alert("Missing some inputs");
-    }
-    dispatch(updateUser({ description, instrument, rating, genre,image},id ));
+    dispatch(updateUser({ description, instrument, rating, genre,image,style},id ));
     navigate("/profile-page");
-    setDescription("");
-    setInstrument("");
-    setGenre("");
-    setImage("");
   };
 
   return ( loading?(<h1>Stana</h1>):(
@@ -89,6 +83,20 @@ function AddProfile() {
                 <h3 className="title mx-auto">Welcome</h3>
                 <div className="social-line text-center"></div>
                 <Form className="register-form">
+                <label>Your style?</label>
+                  <Input
+                    type="select"
+                    placeholder="My Style"
+                    onChange={(e) => setStyle(e.target.value)}
+                  >
+                  <option value="">Select your Style</option>
+                    <option>Soliste</option>
+                    <option>Band</option>
+                    <option>Troupe</option>
+                    <option>DJ</option>
+                    <option>Rapper</option>
+                    
+                  </Input>
                   <label>Your music genre?</label>
                   <Input
                     type="select"
